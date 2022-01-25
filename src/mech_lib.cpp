@@ -14,6 +14,7 @@ void armControl(void*ignore) {
   while(true) {
     double armError = armTarg - potentiometer.get_value();
     arm.move(armError*armKP);
+    //printf("Target: %f, Potentiometer: %d, Error: %f\n", armTarg, potentiometer.get_value(), armError);
 
     if(armLimit.get_new_press()) armClampState = true;
     armClamp.set_value(armClampState);

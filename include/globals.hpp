@@ -23,7 +23,8 @@
 #define tiltLimitPort {7, 6}
 #define potentiometerPort 1
 #define encdRPort 7
-#define encdSPort 4
+//{SMART_PORT, PORT_TOP, PORT_BOTTOM}
+#define encdSPort {7,1,2}
 #define imuPort 11
 
 #endif
