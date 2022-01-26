@@ -59,4 +59,7 @@ public:
 };
 
 void setCurvK(double d);
+
+#define debugPath false
+
 #endif

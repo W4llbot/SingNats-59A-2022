@@ -1,7 +1,7 @@
 #include "main.h"
-#define kV 1340
-#define kA 100000
-#define kP 1000
+#define kV 1375
+#define kA 0
+#define kP 0
 #define DEFAULT_TURN_KP 0.14
 // #define kA 50000
 // #define kP 1000
@@ -106,7 +106,7 @@ void waitPP(double cutoff){
   enablePP = false;
   reverse = false;
 
-  printf("I stopped :)\n\n");
+  printf("Stopped!!!\n\n");
 }
 
 void PPControl(void * ignore){
@@ -248,7 +248,7 @@ void PPControl(void * ignore){
     prevTargVR = targVR;
     // debugging
 
-    if(count % 10 == 0) printf("\tTargV: %4.5f\tMeasuredv: %4.5f", targV*inPerMsToRPM, measuredV*inPerMsToRPM);
+    if(count % 10 == 0) printf("\tTargV: %4.5f\tMeasuredV: %4.5f", targV*inPerMsToRPM, measuredV*inPerMsToRPM);
     count++;
     if(count % 10 == 0) printf("\n");
 

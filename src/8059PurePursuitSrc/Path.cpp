@@ -113,10 +113,12 @@ void Path::setWps(std::vector<Node> p_wps, double p_w_data, double p_w_smooth, d
   this->calcTargV();
 
   enablePP = true;
-  printf("Path: \n");
-  for(int i = 0; i < n; i++) {
-    debugPoint(i);
-    printf("\n");
+  if (debugPath){
+    printf("Path: \n");
+    for(int i = 0; i < n; i++) {
+      debugPoint(i);
+      printf("\n");
+    }
   }
 }
 

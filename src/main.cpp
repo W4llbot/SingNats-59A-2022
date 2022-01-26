@@ -74,16 +74,16 @@ void competition_initialize() {}
 void autonomous() {
 	//insert Skills Code here
 	double start = millis();
-	
+
 	Task odometryTask(Odometry, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
 	setOffset(0);
 	enableBase(true,true);
 	delay(1000);
 	std::vector<Node> testPath = {Node(-2,30), Node(-5, 50)};
-	setMaxRPMV(450);
+	setMaxRPMV(500);
 	//basePP(testPath,1-0.75,0.75,20);
-	baseMove(50);
+	baseMove(75);
 	waitPP(2500);
 	//exit pls
 
