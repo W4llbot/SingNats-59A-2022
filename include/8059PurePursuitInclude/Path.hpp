@@ -60,6 +60,6 @@ public:
 
 void setCurvK(double d);
 
-#define debugPath false
+#define debugPath true
 
 #endif

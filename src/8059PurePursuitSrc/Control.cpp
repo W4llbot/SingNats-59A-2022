@@ -1,7 +1,7 @@
 #include "main.h"
 #define kV 1375
-#define kA 0
-#define kP 0
+#define kA 140500
+#define kP 1000
 #define DEFAULT_TURN_KP 0.14
 // #define kA 50000
 // #define kP 1000

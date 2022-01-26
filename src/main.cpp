@@ -80,11 +80,12 @@ void autonomous() {
 	setOffset(0);
 	enableBase(true,true);
 	delay(1000);
-	std::vector<Node> testPath = {Node(-2,30), Node(-5, 50)};
+	//std::vector<Node> testPath = {Node(0,0),Node(-20,50), Node(-50,100)};
 	setMaxRPMV(500);
+	//setCurvK(0.01);
 	//basePP(testPath,1-0.75,0.75,20);
 	baseMove(75);
-	waitPP(2500);
+	waitPP(5000);
 	//exit pls
 
 
