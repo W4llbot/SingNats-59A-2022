@@ -48,7 +48,7 @@ void tiltControl(void*ignore) {
     if(tiltLimit.get_new_press()) tiltState = true;
     if(tiltState) {
       tiltClamp.set_value(HIGH);
-      delay(240);
+      delay(200);
       tilt.set_value(HIGH);
     } else{
       tilt.set_value(LOW);
