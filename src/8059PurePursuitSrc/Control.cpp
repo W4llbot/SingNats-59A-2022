@@ -2,7 +2,7 @@
 #define kV 1375
 #define kA 140500
 #define kP 1000
-#define DEFAULT_TURN_KP 0.14
+#define DEFAULT_TURN_KP 0.12
 // #define kA 50000
 // #define kP 1000
 
@@ -17,6 +17,55 @@ double lastFracIndex = 0;
 double targBearing = 0;
 
 bool enableL = false, enableR = false;
+
+void park(double s) {
+  Motor FL (FLPort);
+  Motor BLU (BLUPort);
+  Motor BLD (BLDPort);
+  Motor FR (FRPort);
+  Motor BRU (BRUPort);
+  Motor BRD (BRDPort);
+
+  Imu imu (imuPort);
+  imu.tare_roll();
+  // while(true) printf("imu: %.2f\n", -imu.get_roll());
+
+  FL.set_brake_mode(MOTOR_BRAKE_HOLD);
+  BLU.set_brake_mode(MOTOR_BRAKE_HOLD);
+  BLD.set_brake_mode(MOTOR_BRAKE_HOLD);
+  FR.set_brake_mode(MOTOR_BRAKE_HOLD);
+  BRU.set_brake_mode(MOTOR_BRAKE_HOLD);
+  BRD.set_brake_mode(MOTOR_BRAKE_HOLD);
+
+  FL.move(s);
+  BLU.move(s);
+  BLD.move(s);
+  FR.move(s);
+  BRU.move(s);
+  BRD.move(s);
+
+  double start = millis();
+
+  while(fabs(imu.get_roll()) < 21.5) delay(5);
+  // printf("over");
+  while(fabs(imu.get_roll()) > 21.5) delay(5);
+
+  FL.move(0);
+  BLU.move(0);
+  BLD.move(0);
+  FR.move(0);
+  BRU.move(0);
+  BRD.move(0);
+  // while(true) {
+  //   double error = distance(position, Node(0, 39));
+  //   double speed = abscap(error * 40, 80);
+  //
+  //   drive(speed, speed);
+  //
+  //   printf("error %.2f, %.2f\n", error, speed);
+  // }
+}
+
 
 void drive(double l, double r){
   Motor FL (FLPort);

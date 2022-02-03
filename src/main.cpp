@@ -31,7 +31,7 @@ void initialize() {
 	Task armControlTask(armControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Arm Control Task");
 	Task tiltControlTask(tiltControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Tilt Control Task");
 	Task intakeControlTask(intakeControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Intake Control Task");
-	
+
 	Task sensorTask(sensors, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Sensor Task");
 	//Task debugTask(Debug, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Debug Task");
 
@@ -72,25 +72,266 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	//insert Skills Code here
+	// drive(50, 50);
 	double start = millis();
-
+	setOffset(-79.5);
+	baseTurn(-79.5);
+	delay(100);
 	Task odometryTask(Odometry, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Odom Task");
 	Task controlTask(PPControl, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "PP Task");
-	setOffset(0);
-	enableBase(true,true);
-	delay(1000);
-	//std::vector<Node> testPath = {Node(0,0),Node(-20,50), Node(-50,100)};
+	std::vector<Node> testPath = {Node(0, 0), Node(0, 72)};
+	std::vector<Node> moveTurnPath = {Node(0, 0), Node(0, 24), Node(48, 48)};
+	std::vector<Node> reverseMoveTurnPath = {Node(48, 48), Node(24, 24), Node(0, 0)};
+	std::vector<Node> straightPath = {Node(0, 0), Node(0, -24), Node(24, -36)};
+
 	setMaxRPMV(500);
-	//setCurvK(0.01);
-	//basePP(testPath,1-0.75,0.75,20);
-	baseMove(75);
-	waitPP(5000);
-	//exit pls
+	baseMove(-5);
+	waitPP(700);
+
+	delay(200);
+
+  setArmClampState(false);
+	baseMove(5);
+	waitPP(700);
+
+	enableBase(true, false);
+	baseTurn(22);
+	waitTurn(1000);
 
 
+	setMaxRPMV(500);
+	std::vector<Node> initEdgeTurn = {position, Node(14, 58)};
+	double 		smooth = 0.75;
+	basePP(initEdgeTurn, 1-smooth, smooth, 20);
 
-	printf("\n auton ended in %.2f seconds\n", millis() - start);
+	// waitArmClamp(15000);
+	// delay(50);
+	waitPP(2000);
+	setArmPos(2);
+	setIntake(127);
+
+	// std::vector<Node> moveToPlatform1 = {position, Node(40, 93)};
+	// basePP(moveToPlatform1, 1-smooth, smooth, 12);
+	// waitPP(2000);
+	// setCurvK(0.00000000000000012);
+	// setMaxRPMV(300);
+	std::vector<Node> moveToRings1 = {position, Node(53, 81)}; //, Node(23, 76)
+	basePP(moveToRings1, 1-smooth, smooth, 16);
+	waitPP(2000);
+	// setCurvK(0.0000000000000002);
+
+	// delay(1000);
+
+  enableBase(true, true);
+  baseMove(-5);
+  waitPP(700);
+
+	baseTurn(-6);
+	waitTurn(1000);
+
+  delay(200);
+
+	baseMove(15);
+	waitPP(1000);
+
+	setArmPos(1);
+	delay(500);
+	setArmClampState(false);
+	delay(500);
+
+  printf("\n1 goal in %.2f\n", millis() - start);
+
+	baseTurn(0, 0.17);
+	waitTurn(0);
+
+  baseMove(-17);
+  waitPP(2000);
+
+  setArmPos(0);
+  // baseTurn(50, 57, 0.14, false);
+  baseTurn(calcBaseTurn(48, 57, false));
+  waitTurn(2000);
+  setTiltState(false);
+  delay(800);
+
+
+	// setCurvK(0.0000000000000002);
+	setArmClampState(false);
+	baseMove(50, 57, false);
+	waitPP(2000);
+	delay(200);
+
+	setArmHeight(1200);
+  std::vector<Node> disposeGoal = {position, Node(71, 23)};
+	basePP(disposeGoal, 1-smooth, smooth, 16);
+	waitPP(2000);
+
+	// setCurvK(0.0000000000000002);
+
+	printf("\ngoal disposed in %.2f\n", millis() - start);
+
+	// delay(200);
+  // baseTurn(-90);
+	baseTurn(calcBaseTurn(106, 23, true));
+  waitTurn(1000);
+	setArmPos(0);
+	delay(300);
+  setArmClampState(false);
+  delay(200);
+
+  setTiltState(false);
+	setMaxRPMV(300);
+  baseMove(100, 23, true);
+  waitPP(2000);
+	setMaxRPMV(500);
+  // basePP(2000);
+
+	baseMove(84, 22, false);
+	waitPP(1000);
+
+	baseTurn(calcBaseTurn(84, 56, false), 0.145);
+	waitTurn(1000);
+
+	setArmClampState(false);
+	setIntake(127);
+	baseMove(81, 56, false);
+	waitPP(2000);
+
+	setArmPos(2);
+  std::vector<Node> moveToGoal = {position, Node(75, 72), Node(60, 100)};
+	basePP(moveToGoal, 1-smooth, smooth, 8);
+	waitPP(3000);
+
+	// baseTurn(-7);
+	// waitTurn(1000);
+	setArmPos(1);
+	delay(300);
+	setArmClampState(false);
+	delay(300);
+
+	printf("\n2 goals in %.2f\n", millis() - start);
+
+	baseMove(-5);
+	waitPP(1000);
+
+	setArmPos(0);
+	baseTurn(calcBaseTurn(36, 93, false));
+	waitTurn(2000);
+
+	setArmClampState(false);
+	baseMove(47, 93, false);
+	waitPP(3000);
+	setArmPos(2);
+	delay(300);
+
+	setTiltState(false);
+	delay(300);
+
+	enableBase(true, false);
+	baseTurn(calcBaseTurn(33, 110, false));
+	// baseTurn(0);
+	waitTurn(2000);
+
+	// delay(200);
+	//
+	// baseMove(36, 98, false);
+	// waitPP(1000);
+
+	setArmPos(1);
+	delay(300);
+	setArmClampState(false);
+	delay(300);
+	printf("\n3 goals in %.2f\n", millis() - start);
+
+	// baseMove(-8);
+	// waitPP(1000);
+
+	enableBase(true, true);
+	baseTurn(calcBaseTurn(-12, 91, true));
+	// baseTurn(calcBaseTurn(50, position.getY(), true));
+	waitTurn(2000);
+
+	setTiltState(false);
+	setArmPos(0);
+	basePP({position, Node(0, 91)}, 1-smooth, smooth, 14, true);
+	// baseMove(0, 92, true);
+	waitPP(2000);
+
+	enableBase(true, true);
+	baseTurn(calcBaseTurn(60, 91, false), 0.16);
+	waitTurn(2000);
+
+	// setCurvK(0.000000000000000171);
+					 // 0.000000000000000171
+
+	setArmClampState(false);
+	// baseMove(71, 91, false);
+	basePP({position, Node(60, 91)}, 1-smooth, smooth, 14);
+	waitPP(3000);
+
+	// setCurvK(0.0000000000000002);
+
+	setArmPos(2);
+	delay(500);
+	// basePP({position, Node(55, 91)}, 1-smooth, smooth, 14, true);
+	// waitPP(2000);
+
+	enableBase(true, true);
+	baseTurn(calcBaseTurn(60, 112, false));
+	waitTurn(2000);
+
+	baseMove(58, 105, false);
+	waitPP(1000);
+
+	setArmPos(1);
+	delay(100);
+	setArmClampState(false);
+	delay(300);
+	printf("\n4 goals in %.2f\n", millis() - start);
+
+	baseMove(60, 90, true);
+	waitPP(1000);
+
+	setArmPos(0);
+	baseTurn(calcBaseTurn(105, 92, false));
+	waitTurn(2000);
+
+	// baseTurn(calcBaseTurn(92, 95, false));
+	// waitTurn(2000);
+
+	baseMove(105, 92, false);
+	waitPP(2000);
+
+	baseTurn(calcBaseTurn(85, 110, false));
+	waitTurn(2000);
+
+	setArmClampState(false);
+	baseMove(86, 111, false);
+	waitPP(2000);
+
+	setArmHeight(1200);
+	baseMove(98, 92, true);
+	waitPP(2000);
+
+	baseTurn(calcBaseTurn(98, 1, false), 0.145);
+	waitTurn(2000);
+
+	setArmPos(1);
+	// baseMove(98, 0, false);
+	basePP({position, Node(98, 1)}, 1-smooth, smooth, 14);
+	waitPP(4000);
+
+	enableBase(true, false);
+	baseTurn(calcBaseTurn(0, position.getY(), false));
+	waitTurn(2000);
+
+	setArmPos(0);
+	delay(500);
+
+	controlTask.suspend();
+	delay(50);
+	park(70);
+printf("\n auton ended in %.2f seconds\n", millis() - start);
 
 }
 
@@ -153,8 +394,8 @@ void opcontrol() {
 		BRU.move(right);
 		BRD.move(right);
 
-		if(master.get_digital_new_press(DIGITAL_L1) && armPos < 2) setArmPos(++armPos);
-		else if(master.get_digital_new_press(DIGITAL_L2) && armPos > 0) setArmPos(--armPos);
+		if(master.get_digital_new_press(DIGITAL_L1) && armPos < 2) driverArmPos(++armPos);
+		else if(master.get_digital_new_press(DIGITAL_L2) && armPos > 0) driverArmPos(--armPos);
 
 		if(master.get_digital_new_press(DIGITAL_R2)) toggleArmClampState();
 

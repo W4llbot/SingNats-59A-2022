@@ -1,6 +1,7 @@
 #include "main.h"
 
 const double armHeights[] = {995, 1860, 2400};
+const double progArmHeights[] = {995, 2050, 2440};
 double armTarg = armHeights[0], armKP = 0.5;
 bool tiltState = LOW, armClampState = LOW;
 double intakeTarg = 0;
@@ -22,9 +23,13 @@ void armControl(void*ignore) {
     delay(2);
   }
 }
+void setArmHeight(double height) {armTarg = height;}
 
-void setArmPos(int pos) {
+void driverArmPos(int pos) {
   armTarg = armHeights[pos];
+}
+void setArmPos(int pos) {
+  armTarg = progArmHeights[pos];
 }
 
 void setArmClampState(bool state) {
