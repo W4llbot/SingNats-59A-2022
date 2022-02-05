@@ -28,6 +28,7 @@ void park(double s) {
 
   Imu imu (imuPort);
   imu.tare_roll();
+  setArmHeight(1200);
   // while(true) printf("imu: %.2f\n", -imu.get_roll());
 
   FL.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -47,6 +48,7 @@ void park(double s) {
   double start = millis();
 
   while(fabs(imu.get_roll()) < 21.5) delay(5);
+  setArmPos(0);
   // printf("over");
   while(fabs(imu.get_roll()) > 21.5) delay(5);
 
@@ -56,6 +58,8 @@ void park(double s) {
   FR.move(0);
   BRU.move(0);
   BRD.move(0);
+
+  setTiltState(false);
   // while(true) {
   //   double error = distance(position, Node(0, 39));
   //   double speed = abscap(error * 40, 80);
@@ -135,7 +139,7 @@ void baseMove(double dis) {
   std::vector<Node> straightPath = {position, position + Node(dis*sin(bearing), dis*cos(bearing))};
 
   double smooth = 0.75;
-	basePP(straightPath, 1-smooth, smooth, 20, dis < 0);
+	basePP(straightPath, 1-smooth, smooth, 10, dis < 0);
 }
 
 void baseMove(double x, double y, bool rev) {
