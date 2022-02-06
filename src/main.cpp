@@ -161,8 +161,9 @@ void autonomous() {
 	waitPP(2000);
 	delay(200);
 
+	setMaxRPMV(400);
 	setArmHeight(1200);
-  std::vector<Node> disposeGoal = {position, Node(71, 24)};
+  std::vector<Node> disposeGoal = {position, Node(71, 25)};
 	basePP(disposeGoal, 1-smooth, smooth, 12);
 	waitPP(2000);
 
@@ -172,29 +173,31 @@ void autonomous() {
 
 	// delay(200);
   // baseTurn(-90);
+	setArmHeight(1100);
 	baseTurn(calcBaseTurn(106, 24, true), 0.12);
   waitTurn(1000);
-	setArmPos(0);
 	delay(300);
+	setArmPos(0);
   setArmClampState(false);
   delay(200);
+	setMaxRPMV(530);
 
   setTiltState(false);
 	setMaxRPMV(300);
-  baseMove(100, 24, true);
+  baseMove(99, 24, true);
   waitPP(2000);
 	setMaxRPMV(530);
   // basePP(2000);
 
-	baseMove(84, 22, false);
+	baseMove(82, 22, false);
 	waitPP(1000);
 
-	baseTurn(calcBaseTurn(84, 56, false), 0.145);
+	baseTurn(calcBaseTurn(82, 56, false), 0.145);
 	waitTurn(1000);
 
 	setArmClampState(false);
 	setIntake(127);
-	baseMove(81, 56, false);
+	baseMove(82, 56, false);
 	waitPP(2000);
 
 	setArmPos(2);
@@ -221,6 +224,7 @@ void autonomous() {
 	setArmClampState(false);
 	baseMove(47, 95, false);
 	waitPP(3000);
+	setArmClampState(true);
 	setArmPos(2);
 	delay(300);
 
@@ -253,7 +257,7 @@ void autonomous() {
 
 	setTiltState(false);
 	setArmPos(0);
-	basePP({position, Node(0, 97)}, 1-smooth, smooth, 10, true);
+	basePP({position, Node(-1, 97)}, 1-smooth, smooth, 10, true);
 	// baseMove(0, 92, true);
 	waitPP(2000);
 
@@ -280,6 +284,8 @@ void autonomous() {
 	baseTurn(calcBaseTurn(60, 112, false));
 	waitTurn(2000);
 
+	setArmPos(1);
+	delay(300);
 	baseMove(58, 97, false);
 	waitPP(1000);
 
@@ -302,23 +308,26 @@ void autonomous() {
 	baseMove(105, 92, false);
 	waitPP(2000);
 
-	baseTurn(calcBaseTurn(86, 110, false));
+	baseTurn(calcBaseTurn(87, 110, false));
 	waitTurn(2000);
 
+	setMaxRPMV(300);
 	setArmClampState(false);
-	baseMove(86, 111, false);
+	baseMove(86, 110, false);
 	waitPP(2000);
+	setMaxRPMV(530);
+	setArmClampState(true);
 
 	setArmHeight(1200);
-	baseMove(98, 92, true);
+	baseMove(94, 95, true);
 	waitPP(2000);
 
-	baseTurn(calcBaseTurn(98, 2, false), 0.145);
+	baseTurn(calcBaseTurn(94, 2, false), 0.12);
 	waitTurn(2000);
 
 	setArmPos(1);
 	// baseMove(98, 0, false);
-	basePP({position, Node(98, 2)}, 1-smooth, smooth, 14);
+	basePP({position, Node(94, 2)}, 1-smooth, smooth, 14);
 	waitPP(4000);
 
 	enableBase(true, false);
