@@ -322,16 +322,16 @@ void autonomous() {
 	baseMove(94, 95, true);
 	waitPP(2000);
 
-	baseTurn(calcBaseTurn(94, 2, false), 0.12);
+	baseTurn(calcBaseTurn(94, 3, false), 0.12);
 	waitTurn(2000);
 
 	setArmPos(1);
 	// baseMove(98, 0, false);
-	basePP({position, Node(94, 2)}, 1-smooth, smooth, 14);
+	basePP({position, Node(94, 3)}, 1-smooth, smooth, 14);
 	waitPP(4000);
 
 	enableBase(true, false);
-	baseTurn(calcBaseTurn(0, position.getY()+2, false));
+	baseTurn(calcBaseTurn(0, position.getY()+3, false));
 	waitTurn(2000);
 
 	setArmPos(0);
